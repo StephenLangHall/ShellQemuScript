@@ -16,6 +16,7 @@ To make new vm, run
 $ ./vm new
 Disk name: <name of your vm>
 Disk size (MB): <12000>
+<list of all isos in iso directory>
 Iso: <iso name from iso directory without .iso ending>
 Cores: <number of cores>
 Architecture: <architecture of vm cpu>
