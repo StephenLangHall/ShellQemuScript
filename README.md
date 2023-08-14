@@ -18,6 +18,7 @@ Disk name: <name of your vm>
 Disk size (MB): <12000>
 Iso: <iso name from iso directory without .iso ending>
 Cores: <number of cores>
+Architecture: <architecture of vm cpu>
 $
 ```
 and the vm will boot into the iso.
