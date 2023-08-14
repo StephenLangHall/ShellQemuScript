@@ -11,12 +11,13 @@ if [ \"\$1\" == \"new\" ]; then
 	read -p \"Iso: \" iso
 	read -p \"Ram (MB): \" ram
 	read -p \"Cores: \" cores
+ 	read -p \"Architecture: \" cpuarch
 	
 	sudo qemu-img create $rd/img/\$image.img \${disksize}M
-	sudo qemu-system-x86_64 -smp cores=\$cores -boot d -cdrom $rd/iso/\$iso.iso -m \$ram -hda $rd/img/\$image.img
+	sudo qemu-system-\$cpuarch -smp cores=\$cores -boot d -cdrom $rd/iso/\$iso.iso -m \$ram -hda $rd/img/\$image.img
 
 	sudo echo \"#!/bin/bash
-sudo qemu-system-x86_64 -m \$ram -smp cores=\$cores -drive format=raw,file=$rd/img/\$name.img
+sudo qemu-system-\$cpuarch -m \$ram -smp cores=\$cores -drive format=raw,file=$rd/img/\$name.img
 	\" > $rd/run/run\$image.sh
 	sudo chmod +x $rd/run/run\$image.sh
 
