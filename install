@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+echo "$(pwd)" > $HOME/.VMDIR
+mkdir Disks Isos Info

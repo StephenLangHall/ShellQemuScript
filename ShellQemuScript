@@ -1,0 +1,30 @@
+#!/bin/zsh
+
+VMDIR="$(cat $HOME/.VMDIR)"
+
+case "$1" in
+"new")
+	printf "Disk Name: ";read DISKNAME
+	printf "Disk Size (MB): ";read DISKSIZE
+	printf "Iso: ";read ISONAME
+	printf "Ram (MB): ";read RAMSIZE
+	printf "Cores: ";read CORENUM
+ 	printf "Architecture: ";read CPUARCH
+  dd if=/dev/zero of=$DISKNAME.img bs=1M count=$DISKSIZE
+	qemu-system-$CPUARCH -smp cores=$CORENUM -boot d -cdrom $VMDIR/Isos/$ISONAME.iso -m $RAMSIZE -hda $VMDIR/Disks/$DISKNAME.img
+	echo "$DISKSIZE,$RAMSIZE,$CORENUM,$CPUARCH" > $VMDIR/Info/$DISKNAME
+  ;;
+"run")
+	printf "Boot into: ";read DISKNAME
+	DISKINFO=${(s/,/)"$(cat $VMDIR/run/$DISKNAME)"}
+  DISKSIZE=$DISKINFO[0]
+  RAMSIZE=$DISKINFO[1]
+  CORENUM=$DISKINFO[2]
+  CPUARCH=$DISKINFO[3]
+  qemu-system-$CPUARCH -m $RAMSIZE -drive format=raw,file=$VMDIR/Disks/$DISKNAME.img -smp cores=$CORENUM
+  ;;
+"del")
+	printf "Delete: ";read DISKNAME
+	rm $VMDIR/Disks/$DISKNAME.img
+	rm $VMDIR/Info/$DISKNAME
+esac
